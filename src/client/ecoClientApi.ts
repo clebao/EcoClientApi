@@ -37,17 +37,16 @@ export class EcoClientApi{
 
 
 function initParamsBody(params: EcoParams): EcoParamsBody {
-    const shasum = crypto.createHash('sha1')
     const dateStr = dateFormat.asString('yyyy-MM-dd hh:mm:ss', new Date())
     let hashPreValidate = ''
     let hashValidadeCode = ''
     let hashUsuarioSenha = ''
     let hashSenhaValidate = ''
 
-    hashPreValidate=  shasum.update(params.idLocal + params.codigoValidacaoLocal).digest('base64')
-    hashValidadeCode = shasum.update(dateStr + hashPreValidate).digest('base64')
-    hashUsuarioSenha = shasum.update(params.usuarioEco + params.senhaEco).digest('hex')
-    hashSenhaValidate = shasum.update(params.dbId + params.empresaEco + params.usuarioEco + hashUsuarioSenha + dateStr)
+    hashPreValidate=  crypto.createHash('sha1').update(params.idLocal + params.codigoValidacaoLocal).digest('base64')
+    hashValidadeCode = crypto.createHash('sha1').update(dateStr + hashPreValidate).digest('base64')
+    hashUsuarioSenha = crypto.createHash('sha1').update(params.usuarioEco + params.senhaEco).digest('hex')
+    hashSenhaValidate = crypto.createHash('sha1').update(params.dbId + params.empresaEco + params.usuarioEco + hashUsuarioSenha + dateStr)
         .digest('base64')
 
     return {
