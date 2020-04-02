@@ -1,0 +1,35 @@
+{
+  "name": "eco-client-api",
+  "version": "0.0.1",
+  "description": "Client to request information to EcoSistema API server",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm rum build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/clebao/EcoClientApi.git"
+  },
+  "keywords": [],
+  "author": "Cleber R. Inacio",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/clebao/EcoClientApi/issues"
+  },
+  "homepage": "https://github.com/clebao/EcoClientApi#readme",
+  "devDependencies": {
+    "@types/node": "^13.11.0",
+    "@types/request": "^2.48.4",
+    "@types/request-promise": "^4.1.46"
+  },
+  "dependencies": {
+    "date-format": "^3.0.0",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.5"
+  }
+}
