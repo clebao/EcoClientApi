@@ -14,5 +14,4 @@ export interface EcoParams {
     idLocal: string
     codigoValidacaoLocal: string
 
-
 }

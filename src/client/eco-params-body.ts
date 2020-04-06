@@ -1,7 +1,7 @@
 
 export interface EcoParamsBody {
     dbid: string
-    timesamp: string
+    timestamp: string
     localid: string
     localcode: string
     empresa?: string
