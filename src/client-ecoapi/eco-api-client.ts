@@ -96,7 +96,7 @@ export class EcoApiClient {
      * @param method
      */
     private verbalizeFunc = (method: string) => {
-        return async(uri: string, filter?: RequestPromiseOptions) => {
+        return async(uri: string, filter?: RequestPromiseOptions, body?:any) => {
             if (!this.tokenIsValid()) {
                 await this.refreshToken()
             }
@@ -104,6 +104,7 @@ export class EcoApiClient {
             let params = request.initParams(uri, filter)
             params.method = method.toUpperCase()
             params.auth = { bearer: this._tokenServer }
+            params.body = body
             params.json = true
             return request(params)
         }
