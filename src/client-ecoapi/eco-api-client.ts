@@ -4,7 +4,7 @@ import { EcoApiParams } from './eco-api-params'
 import { EcoApiParamsBody } from './eco-api-params-body'
 import * as crypto from 'crypto'
 import request, { RequestPromise, RequestPromiseOptions } from 'request-promise'
-import { EcoApiParamsFilter } from './eco-api-params-filter'
+import { EcoApiParamsOptions } from './eco-api-params-options'
 // @ts-ignore
 import * as dateFormat from 'date-format'
 
@@ -36,7 +36,6 @@ export class EcoApiClient {
         }
 
     }
-
 
     /**
      * checks if the token was generated, or if it was generated less than three hours ago
@@ -86,7 +85,7 @@ export class EcoApiClient {
      * @param urlEndPoint URL do endponint para carregas as informações dos produtos
      * @param filter Fitro para pesquisa no serviço de produtos no Servidor ECO API
      */
-    getProdutos = (urlEndPoint: string, filter: EcoApiParamsFilter): Promise<RequestPromise<[]>> => {
+    getProdutos = (urlEndPoint: string, filter: EcoApiParamsOptions): Promise<RequestPromise<[]>> => {
         return this.get('', { baseUrl: urlEndPoint, qs: filter, useQuerystring: true })
     }
 
@@ -96,12 +95,12 @@ export class EcoApiClient {
      * @param method
      */
     private verbalizeFunc = (method: string) => {
-        return async(uri: string, filter?: RequestPromiseOptions, body?:any) => {
+        return async(uri: string, options?: RequestPromiseOptions, body?:any) => {
             if (!this.tokenIsValid()) {
                 await this.refreshToken()
             }
 
-            let params = request.initParams(uri, filter)
+            let params = request.initParams(uri, options)
             params.method = method.toUpperCase()
             params.auth = { bearer: this._tokenServer }
             params.body = body

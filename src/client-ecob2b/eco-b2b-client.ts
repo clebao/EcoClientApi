@@ -12,9 +12,10 @@ export class EcoB2BClient {
     }
 
     private verbalizeFunc = (method: string) => {
-        return (uri: string, filter?: RequestPromiseOptions) => {
-            let params = request.initParams(uri, filter)
+        return (uri: string, options?: RequestPromiseOptions, body?: any) => {
+            let params = request.initParams(uri, options)
             params.method = method.toUpperCase()
+            params.body = body
             params.json = true
             return request(params)
         }
