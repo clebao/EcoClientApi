@@ -1,5 +1,5 @@
 
-export interface EcoParams {
+export interface EcoApiParams {
     url: string
     consumerKey: string
     consumerSecret: string

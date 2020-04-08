@@ -1,31 +1,34 @@
 'use strict'
 
-import { EcoParams } from './eco-params'
-import { EcoParamsBody } from './eco-params-body'
+import { EcoApiParams } from './eco-api-params'
+import { EcoApiParamsBody } from './eco-api-params-body'
 import * as crypto from 'crypto'
-import request from 'request-promise'
-import * as queryString from 'querystring'
+import request, { RequestPromise, RequestPromiseOptions } from 'request-promise'
+import { EcoApiParamsFilter } from './eco-api-params-filter'
 // @ts-ignore
 import * as dateFormat from 'date-format'
-import { RequestPromise, RequestPromiseOptions } from 'request-promise'
-import { RequestCallback } from 'request'
-import { EcoFilterService } from './eco-filter-service'
 
 
-export class EcoClientApi {
+/**
+ * Classe para criação de um client para fazer requisições REST para o servidor do Sistema ECO API
+ */
+export class EcoApiClient {
 
-    private readonly _paramsBody: EcoParamsBody
-    private _paramsEco: EcoParams
+    private readonly _paramsBody: EcoApiParamsBody
+    private _paramsEco: EcoApiParams
     private _tokenServer: string = ''
     private _dateToken?: Date
 
-    constructor(params: EcoParams) {
+    constructor(params: EcoApiParams) {
         this._paramsBody = initParamsBody(params)
         this._paramsEco = params
     }
 
+    /**
+     * Renova o Token de acesso para os endpoints dos serviços
+     */
     refreshToken = async() => {
-        let resultCall:any = await this.getTokenServer()
+        let resultCall: any = await this.getTokenServer()
 
         if (resultCall) {
             this._tokenServer = resultCall.token
@@ -62,6 +65,9 @@ export class EcoClientApi {
         return !!this._tokenServer
     }
 
+    /**
+     * Carre o token de acesso aos endpoints dos serviços do Sistema ECO API atraves do OAuth 1.0
+     */
     getTokenServer = (): RequestPromise<string> => {
         return request.post(this._paramsEco.url, {
             oauth: {
@@ -75,31 +81,20 @@ export class EcoClientApi {
         })
     }
 
-    getProdutos = async(urlEndPoint: string, filter: EcoFilterService): Promise<RequestPromise<[]>> => {
-        // if (this._tokenServer.length === 0) {
-        //     this._tokenServer = await this.getTokenServer()
-        // }
-        //
-        // if (filter) {
-        //     const urlRq = queryString.encode(filter)
-        //     urlEndPoint += `?${urlRq}`
-        // }
-        //
-        // this.get(urlEndPoint, {
-        //     qsParseOptions: filter
-        // })
-        //
-        // return request.get(urlEndPoint, {
-        //         auth: {
-        //             bearer: this._tokenServer
-        //         },
-        //         json: true,
-        //     }
-        // )
-
-        return this.get('', {baseUrl: urlEndPoint,   qs: filter, useQuerystring: true})
+    /**
+     * Carrega as informações dos produtos do Sistema ECO API
+     * @param urlEndPoint URL do endponint para carregas as informações dos produtos
+     * @param filter Fitro para pesquisa no serviço de produtos no Servidor ECO API
+     */
+    getProdutos = async(urlEndPoint: string, filter: EcoApiParamsFilter): Promise<RequestPromise<[]>> => {
+        return this.get('', { baseUrl: urlEndPoint, qs: filter, useQuerystring: true })
     }
 
+    /**
+     * Verbaliza as chamadas REST como post, get, path, etc. pois todas as chamadas são identificas, a unica coisa
+     * que muda de um para outra é o HEADER METHOD
+     * @param method
+     */
     private verbalizeFunc = (method: string) => {
         return async(uri: string, filter?: RequestPromiseOptions) => {
             if (!this.tokenIsValid()) {
@@ -123,27 +118,22 @@ export class EcoClientApi {
     del = this.verbalizeFunc('delete')
 }
 
-
-
-
-function initParamsBody(params: EcoParams): EcoParamsBody {
+/**
+ * Inicia os parametros do Body obrigatório para fazer um request no Servidor ECO API com o OAuth 1.0
+ * @param params Parametros obrigátorio para fazer o Body do Request para pegar o Token
+ */
+function initParamsBody(params: EcoApiParams): EcoApiParamsBody {
     const dateStr = dateFormat.asString('yyyy-MM-dd hh:mm:ss', new Date())
-    // const dateStr = '2020-x04-02 17:33:11'
-    let hashPreValidate = ''
-    let hashValidadeCode = ''
-    let hashUsuarioSenha = ''
-    let hashSenhaValidate = ''
+    let hashPreValidate: string
+    let hashValidadeCode: string
+    let hashUsuarioSenha: string
+    let hashSenhaValidate: string
 
     hashPreValidate = crypto.createHash('sha1').update(params.idLocal + params.codigoValidacaoLocal).digest('base64')
     hashValidadeCode = crypto.createHash('sha1').update(dateStr + hashPreValidate).digest('base64')
     hashUsuarioSenha = crypto.createHash('sha1').update(params.usuarioEco + params.senhaEco).digest('hex')
     hashSenhaValidate = crypto.createHash('sha1').update(params.dbId + params.empresaEco + params.usuarioEco + hashUsuarioSenha + dateStr)
         .digest('base64')
-
-    // console.log(hashPreValidate)
-    // console.log(hashValidadeCode)
-    // console.log(hashUsuarioSenha)
-    // console.log(hashSenhaValidate)
 
     return {
         dbid: params.dbId,

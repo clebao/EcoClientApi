@@ -1,5 +1,5 @@
 
-export interface EcoParamsBody {
+export interface EcoApiParamsBody {
     dbid: string
     timestamp: string
     localid: string

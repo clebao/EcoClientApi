@@ -1,5 +1,8 @@
-export * from './client/ecoClientApi'
-export * from './client/eco-params'
-export * from './client/eco-filter-service'
-export * from './client/eco-params-body'
+export * from './client-ecoapi/eco-api-client'
+export * from './client-ecoapi/eco-api-params'
+export * from './client-ecoapi/eco-api-params-filter'
+export * from './client-ecoapi/eco-api-params-body'
+
+export * from './client-ecob2b/eco-b2b-client'
+export * from './client-ecob2b/eco-b2b-params'
 
