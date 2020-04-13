@@ -20,6 +20,18 @@ export class EcoB2BClient {
         }
     }
 
+    sendProdutos = (uri: string, produtos: any[]) => {
+        let options = {
+            method: 'POST',
+            uri,
+            json: true,
+            body: produtos,
+            resolveWithFullResponse: true
+        }
+
+        return this.serverRequest(options)
+    }
+
     get = this.verbalizeFunc('get')
     head = this.verbalizeFunc('head')
     options = this.verbalizeFunc('options')
