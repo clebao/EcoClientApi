@@ -28,4 +28,6 @@ export class EcoB2BClient {
     patch = this.verbalizeFunc('patch')
     del = this.verbalizeFunc('delete')
 
+    initParams = request.initParams
+    serverRequest = request
 }
