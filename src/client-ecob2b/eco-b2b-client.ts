@@ -1,5 +1,5 @@
 import { EcoB2BParams } from './eco-b2b-params'
-import request, { RequestPromise, RequestPromiseOptions } from 'request-promise'
+import request from 'request-promise'
 
 
 export class EcoB2BClient {
@@ -10,8 +10,8 @@ export class EcoB2BClient {
         this._paramsB2B = params
     }
 
-    private verbalizeFunc = (method: string) => {
-        return (uri: string, options?: RequestPromiseOptions, body?: any): RequestPromise => {
+    private verbalizeFunc = (method: string) => (uri: string, options?: request.RequestPromiseOptions, body?: any): request.RequestPromise | any => {
+        return (uri: string, options?: request.RequestPromiseOptions, body?: any): request.RequestPromise => {
             let params = request.initParams(uri, options)
             params.method = method.toUpperCase()
             params.body = body
