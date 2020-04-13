@@ -10,7 +10,7 @@ export class EcoB2BClient {
         this._paramsB2B = params
     }
 
-    private verbalizeFunc = (method: string) => (uri: string, options?: request.RequestPromiseOptions, body?: any): request.RequestPromise | any => {
+    private verbalizeFunc = (method: string) => {
         return (uri: string, options?: request.RequestPromiseOptions, body?: any): request.RequestPromise => {
             let params = request.initParams(uri, options)
             params.method = method.toUpperCase()
