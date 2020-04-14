@@ -85,7 +85,11 @@ export class EcoApiClient {
      * @param urlEndPoint URL do endponint para carregas as informações dos produtos
      * @param filter Fitro para pesquisa no serviço de produtos no Servidor ECO API
      */
-    getProdutos = (urlEndPoint: string, filter: EcoApiParamsOptions): RequestPromise => {
+    getProdutos = async(urlEndPoint: string, filter: EcoApiParamsOptions): Promise<RequestPromise> => {
+        if (!this.tokenIsValid()) {
+            await this.refreshToken()
+        }
+
         let options = {
             method: 'GET',
             uri: '',
