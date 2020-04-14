@@ -1,5 +1,5 @@
 import { EcoB2BParams } from './eco-b2b-params'
-import request from 'request-promise'
+import request, { RequestPromise } from 'request-promise'
 
 
 export class EcoB2BClient {
@@ -20,7 +20,7 @@ export class EcoB2BClient {
         }
     }
 
-    sendProdutos = (uri: string, produtos: any[]) => {
+    sendProdutos = async(uri: string, produtos: any[]): Promise<RequestPromise> => {
         let options = {
             method: 'POST',
             uri,
