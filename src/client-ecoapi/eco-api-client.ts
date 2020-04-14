@@ -85,8 +85,17 @@ export class EcoApiClient {
      * @param urlEndPoint URL do endponint para carregas as informações dos produtos
      * @param filter Fitro para pesquisa no serviço de produtos no Servidor ECO API
      */
-    getProdutos = (urlEndPoint: string, filter: EcoApiParamsOptions): Promise<RequestPromise<[]>> => {
-        return this.get('', { baseUrl: urlEndPoint, qs: filter, useQuerystring: true })
+    getProdutos = (urlEndPoint: string, filter: EcoApiParamsOptions): RequestPromise => {
+        let options = {
+            method: 'GET',
+            uri: '',
+            baseUrl: urlEndPoint,
+            qs: filter,
+            useQuerystring: true,
+            resolveWithFullResponse: true
+        }
+        return this.requestServer(options)
+        // return this.get('', { baseUrl: urlEndPoint, qs: filter, useQuerystring: true })
     }
 
     /**
@@ -116,6 +125,7 @@ export class EcoApiClient {
     put = this.verbalizeFunc('put')
     patch = this.verbalizeFunc('patch')
     del = this.verbalizeFunc('delete')
+    requestServer = request
 }
 
 /**
