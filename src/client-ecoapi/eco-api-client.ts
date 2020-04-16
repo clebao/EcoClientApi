@@ -81,11 +81,25 @@ export class EcoApiClient {
     }
 
     /**
-     * Carrega as informações dos produtos do Sistema ECO API
+     * Carrega as informações dos Produtos do Sistema ECO API
      * @param urlEndPoint URL do endponint para carregas as informações dos produtos
      * @param filter Fitro para pesquisa no serviço de produtos no Servidor ECO API
      */
     getProdutos = async(urlEndPoint: string, filter: EcoApiParamsOptions): Promise<RequestPromise> => {
+        return await this.get('', {
+            baseUrl: urlEndPoint,
+            qs: filter,
+            useQuerystring: true,
+            resolveWithFullResponse: true
+        })
+    }
+
+    /**
+     * Carrega as informações dos Clientes do Sistema ECO API
+     * @param urlEndPoint URL do endponint para carregas as informações dos produtos
+     * @param filter Fitro para pesquisa no serviço de produtos no Servidor ECO API
+     */
+    getClientes = async(urlEndPoint: string, filter: EcoApiParamsOptions): Promise<RequestPromise> => {
         return await this.get('', {
             baseUrl: urlEndPoint,
             qs: filter,

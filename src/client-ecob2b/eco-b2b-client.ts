@@ -20,12 +20,38 @@ export class EcoB2BClient {
         }
     }
 
+    /**
+     * Envia os Produtos carregados do Servidor de API do Sistema eco e envia para o
+     * Servidor de API do B2B.
+     *
+     * @param uri Endereço do endpoint da syncronização de clientes.
+     * @param produtos Registros de Produtos carregados do Servidor de Api do Sistema ECO.
+     */
     sendProdutos = async(uri: string, produtos: any[]): Promise<RequestPromise> => {
         let options = {
             method: 'POST',
             uri,
             json: true,
             body: produtos,
+            resolveWithFullResponse: true
+        }
+
+        return this.serverRequest(options)
+    }
+
+    /**
+     * Envia os Clientes carregados do Servidor de API do Sistema eco e envia para o
+     * Servidor de API do B2B.
+     *
+     * @param uri Endereço do endpoint da syncronização de clientes.
+     * @param clientes Registros de Clientes carregados do Servidor de Api do Sistema ECO.
+     */
+    sendClientes = async(uri: string, clientes: any[]): Promise<RequestPromise> => {
+        let options = {
+            method: 'POST',
+            uri,
+            json: true,
+            body: clientes,
             resolveWithFullResponse: true
         }
 
