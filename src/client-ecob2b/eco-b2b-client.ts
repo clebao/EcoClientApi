@@ -58,6 +58,10 @@ export class EcoB2BClient {
         return this.serverRequest(options)
     }
 
+    getPedidosPendentes = async(uri: string) => {
+        return this.get(uri)
+    }
+
     get = this.verbalizeFunc('get')
     head = this.verbalizeFunc('head')
     options = this.verbalizeFunc('options')

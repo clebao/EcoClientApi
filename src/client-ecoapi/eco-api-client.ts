@@ -108,6 +108,10 @@ export class EcoApiClient {
         })
     }
 
+    sendPedidos = async(uri: string, pedidos: any[]) => {
+        return await this.post(uri, {}, pedidos)
+    }
+
     /**
      * Verbaliza as chamadas REST como post, get, path, etc. pois todas as chamadas são identificas, a unica coisa
      * que muda de um para outra é o HEADER METHOD
