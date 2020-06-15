@@ -49,8 +49,8 @@ export class EcoApiClient {
         let dateCheck = new Date(this._dateToken.getFullYear(),
             this._dateToken.getMonth(),
             this._dateToken.getDate(),
-            this._dateToken.getHours() - 3,
             this._dateToken.getHours(),
+            this._dateToken.getMinutes() - 20,
             this._dateToken.getSeconds())
 
         return this._dateToken.getTime() > dateCheck.getTime()
