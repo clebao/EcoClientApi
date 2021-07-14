@@ -1,6 +1,6 @@
 {
   "name": "eco-client-api",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Client to request information to EcoSistema API server",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
